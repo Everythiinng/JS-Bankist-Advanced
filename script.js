@@ -131,6 +131,29 @@ const handleHover = function (e) {
   }
 };
 
+// Passing "argument" into handler
 nav.addEventListener('mouseover', handleHover.bind(0.5)); // mouseover = bubbles, mouseenter = doesnt bubble
 
 nav.addEventListener('mouseout', handleHover.bind(1)); // mouseout = mouse leaves the element
+
+/////////////////////////////////////////
+// Sticky navigation - Intersection Observer API
+// Most efficient way
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`, // We give this a -90 margin to the header so we can align the nav with the line where the header ends
+  // This is just a visual margin not a real one. The nav is 90px so we give this -90px to the rootMargin so the isIntersecting becomes
+  // false not when it reaches 0 but + 90px
+});
+headerObserver.observe(header);
