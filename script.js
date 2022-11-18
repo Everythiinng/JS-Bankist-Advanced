@@ -83,3 +83,34 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
 });
+
+//////////////////////////////////////////
+// Tabbed Component - Event delegation
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+  // Matching Strategy
+  // const clicked = e.target; // this will get the button, but if in case we click at the number of the button which is a <span></span>
+  // it will get that span
+
+  // Best practice
+  const clicked = e.target.closest('.operations__tab');
+
+  // Guard clause( this function is helpful if it returns NULL) <--IMPORTANT-->
+  if (!clicked) return;
+
+  // Remove active classes
+  tabs.forEach(t => t.classList.remove('operations__tab--active')); // removing active class for the other buttons
+  tabsContent.forEach(t => t.classList.remove('operations__content--active')); // removing active class for the other contents
+
+  // Activate tab (btns)
+  clicked.classList.add('operations__tab--active'); // We will get an error if we dont specify the guard clause in case we click the buttons container
+
+  // Activate content area
+  console.log(clicked.dataset.tab); // output: 2 (We have data-tab:2 in the operations__tab)
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
