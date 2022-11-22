@@ -210,6 +210,7 @@ imgTargets.forEach(img => imgObserver.observe(img));
 
 //////////////////////////////////////////////
 // Slider component
+
 const slider = function () {
   const slides = document.querySelectorAll('.slide');
   const btnLeft = document.querySelector('.slider__btn--left');
@@ -219,8 +220,7 @@ const slider = function () {
   let curSlide = 0;
   const maxSlide = slides.length;
 
-  // Functions
-
+  //////////// Functions
   // Create dots
   const createDots = function () {
     slides.forEach(function (_, i) {
@@ -281,7 +281,7 @@ const slider = function () {
   };
   init();
 
-  // Events
+  //////////// Events
 
   btnRight.addEventListener('click', nextSlide);
   btnLeft.addEventListener('click', prevSlide);
