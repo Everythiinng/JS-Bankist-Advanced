@@ -110,7 +110,7 @@ tabsContainer.addEventListener('click', function (e) {
   clicked.classList.add('operations__tab--active'); // We will get an error if we dont specify the guard clause in case we click the buttons container
 
   // Activate content area
-  console.log(clicked.dataset.tab); // output: 2 (We have data-tab:2 in the operations__tab)
+  console.log(clicked.dataset.tab); // output: 2 (We have data-tab:2 in the operations__tab in index.html)
   document
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
@@ -179,3 +179,31 @@ allSection.forEach(section => {
   section.classList.add('section--hidden');
   sectionObserver.observe(section);
 });
+
+//////////////////////////////////////////
+// Lazy Loading images
+
+const imgTargets = document.querySelectorAll('img[data-src]'); // This selects images with attribute [data-src].
+
+const loadimg = function (entries, observer) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+
+  // Replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  }); // we remove the lazy-img class with an evenlistener and not directly.
+
+  observer.unobserver(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadimg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+
+imgTargets.forEach(img => imgObserver.observer(img));
